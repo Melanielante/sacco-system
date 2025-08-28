@@ -1,17 +1,15 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+# sacco/db.py
 
-# database URL
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
 DATABASE_URL = "sqlite:///saccoSystem.db"
 
-engine = create_engine (
-    DATABASE_URL
+engine = create_engine(
+    DATABASE_URL, 
+    echo=True
 )
+SessionLocal = sessionmaker(bind=engine)
 
-SessionLocal = sessionmaker(
-    autocommit = False,
-    bind = engine,
-    autoflush = False
-)
 
 Base = declarative_base()
