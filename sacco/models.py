@@ -1,4 +1,4 @@
-# models.py
+
 from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from .db import Base, engine
 
@@ -24,11 +24,11 @@ class Account(Base):
     balance = Column(Float(10,4))
     account_type = Column(String(30))
 
-    member_id = Column(Integer, ForeignKey('member.id'))
+    member_id = Column(Integer, ForeignKey('members.id'))
 
 
 class SavingsTransaction(Base):
-    __tablename__ = "savingsTransactions"
+    __tablename__ = "savings_transactions"
 
 
     id = Column(Integer, primary_key=True)
@@ -36,7 +36,7 @@ class SavingsTransaction(Base):
     transaction_date = Column(DateTime)
     transaction_type = Column(String(50))
 
-    account_id = Column(Integer, ForeignKey('account.id'))
+    account_id = Column(Integer, ForeignKey('accounts.id'))
 
 
 class Loan(Base):
@@ -49,11 +49,11 @@ class Loan(Base):
     status = Column(String(20))
     issue_ddate = Column(DateTime)
 
-    member_id = Column(Integer, ForeignKey('member.id'))
+    member_id = Column(Integer, ForeignKey('members.id'))
 
 
 class LoanRepayment(Base):
-    __tablename__ = "loanRepayments"
+    __tablename__ = "loan_repayments"
 
 
     id = Column(Integer, primary_key=True)
@@ -62,4 +62,4 @@ class LoanRepayment(Base):
     method = Column(String(40))
 
 
-    loan_id = Column(Integer, ForeignKey('loan.id'))
+    loan_id = Column(Integer, ForeignKey('loans.id'))
