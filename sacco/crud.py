@@ -1,8 +1,10 @@
-from models import Member, Account, SavingsTransaction, Loan, LoanRepayment
-from db import session
+from .models import Member, Account, SavingsTransaction, Loan, LoanRepayment 
+from .db import session, SessionLocal
 from datetime import datetime
 
-# ------------------ Member ------------------
+
+session = SessionLocal()
+#  Member 
 def add_member(firstname, lastname, age, email, phone):
     new_member = Member(
         firstname=firstname,
@@ -37,7 +39,7 @@ def delete_member(member_id):
         session.delete(member)
         session.commit()
 
-# ------------------ Account ------------------
+#  Account 
 def add_account(member_id, account_number, balance=0.0, account_type="savings"):
     new_account = Account(
         member_id=member_id,
@@ -70,7 +72,7 @@ def delete_account(account_id):
         session.delete(account)
         session.commit()
 
-# ------------------ SavingsTransaction ------------------
+#  SavingsTransaction 
 def add_savings_transaction(account_id, amount, transaction_type):
     new_transaction = SavingsTransaction(
         account_id=account_id,
@@ -103,7 +105,7 @@ def delete_transaction(transaction_id):
         session.delete(transaction)
         session.commit()
 
-# ------------------ Loan ------------------
+#  Loan 
 def add_loan(member_id, principle_amount, interest_rate, status="pending"):
     new_loan = Loan(
         member_id=member_id,
@@ -137,7 +139,7 @@ def delete_loan(loan_id):
         session.delete(loan)
         session.commit()
 
-# ------------------ LoanRepayment ------------------
+#  LoanRepayment 
 def add_loan_repayment(loan_id, amount, repayable_date, method):
     new_repayment = LoanRepayment(
         loan_id=loan_id,

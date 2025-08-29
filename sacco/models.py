@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from .db import Base, engine
 
+
 class Member(Base):
     __tablename__ = "members"
 

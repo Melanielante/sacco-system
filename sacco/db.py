@@ -13,3 +13,6 @@ SessionLocal = sessionmaker(bind=engine)
 
 
 Base = declarative_base()
+
+def session():
+    return SessionLocal()
