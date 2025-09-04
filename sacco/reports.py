@@ -1,35 +1,33 @@
-from .crud import get_all_members, get_all_accounts, get_all_loans, get_all_transactions, get_all_repayments
-
+import click
+from .crud import (
+    get_all_members, get_all_accounts, get_all_loans, 
+    get_all_transactions, get_all_repayments
+)
 
 # LISTS 
 def list_all_member_names():
-    """Return a list of all member full names."""
     members = get_all_members()
     return [f"{m.firstname} {m.lastname}" for m in members]
 
 
 def list_all_account_balances():
-    """Return a list of all account balances."""
     accounts = get_all_accounts()
     return [acc.balance for acc in accounts]
 
 
-# TUPLES 
+# TUPLES
 def loan_summary():
-    """Return a list of tuples with loan details (id, member_id, amount, status)."""
     loans = get_all_loans()
     return [(loan.id, loan.member_id, loan.principle_amount, loan.status) for loan in loans]
 
 
 def repayment_summary():
-    """Return a list of tuples with repayment details (id, loan_id, amount, method)."""
     repayments = get_all_repayments()
     return [(r.id, r.loan_id, r.amount, r.method) for r in repayments]
 
 
-# DICTIONARIES 
+#  DICTIONARIES 
 def member_account_map():
-    """Return a dictionary mapping member_id -> list of account numbers."""
     accounts = get_all_accounts()
     mapping = {}
     for acc in accounts:
@@ -38,7 +36,6 @@ def member_account_map():
 
 
 def transaction_map():
-    """Return a dictionary mapping account_id -> list of transactions (as tuples)."""
     transactions = get_all_transactions()
     mapping = {}
     for t in transactions:
@@ -49,7 +46,6 @@ def transaction_map():
 
 # COMBINED REPORTS 
 def loan_report_by_member():
-    """Return a dictionary mapping member_id -> list of loan tuples (id, amount, status)."""
     loans = get_all_loans()
     report = {}
     for loan in loans:
@@ -59,7 +55,6 @@ def loan_report_by_member():
 
 
 def savings_overview():
-    """Return a dictionary with summary statistics about savings transactions."""
     transactions = get_all_transactions()
     deposits = sum(t.amount for t in transactions if t.transaction_type == "deposit")
     withdrawals = sum(t.amount for t in transactions if t.transaction_type == "withdrawal")
@@ -69,3 +64,22 @@ def savings_overview():
         "total_withdrawals": withdrawals,
         "net_savings": deposits - withdrawals
     }
+
+
+#  PRETTY PRINT HELPERS 
+def print_list(title, items):
+    click.secho(f"\n{title}", fg="blue", bold=True)
+    for i in items:
+        click.secho(f"- {i}", fg="cyan")
+
+
+def print_tuples(title, tuples):
+    click.secho(f"\n{title}", fg="blue", bold=True)
+    for tup in tuples:
+        click.secho(f"{tup}", fg="cyan")
+
+
+def print_dict(title, dct):
+    click.secho(f"\n{title}", fg="blue", bold=True)
+    for key, value in dct.items():
+        click.secho(f"{key}: {value}", fg="cyan")
